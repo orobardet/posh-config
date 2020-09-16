@@ -1,1 +1,1 @@
-{"ExperimentalFeatures":["PSCommandNotFoundSuggestion","PSUseAbbreviationExpansion"]}
+{"ExperimentalFeatures":["PSCommandNotFoundSuggestion","PSUseAbbreviationExpansion"],"Microsoft.PowerShell:ExecutionPolicy":"RemoteSigned"}
