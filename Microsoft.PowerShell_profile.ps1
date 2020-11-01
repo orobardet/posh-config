@@ -12,7 +12,7 @@ Set-PSReadLineOption -Colors @{ "Command"=[ConsoleColor]::DarkYellow }
 Import-Module posh-git
 # Install-Module oh-my-posh -Scope CurrentUser
 Import-Module oh-my-posh
-Set-Theme Paradox
+Set-PoshPrompt -Theme Fish
 
 # Load powerline-go prompt
 function global:prompt {
@@ -35,7 +35,8 @@ function global:prompt {
 }
 
 If (-Not (Test-Path Variable:PSise)) {  # Only run this in the console and not in the ISE
-    Import-Module Get-ChildItemColor
+	Import-Module -Name Terminal-Icons
+    # Import-Module Get-ChildItemColor
     Set-Alias l Get-ChildItem -option AllScope
     Set-Alias ls Get-ChildItemColorFormatWide -option AllScope
 	Set-Alias ll l
