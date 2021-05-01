@@ -1,5 +1,7 @@
 Import-Module PSReadline
 
+$Env:PATH += ";$Env:GOPATH\bin"
+
 Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 
 Set-PSReadLineOption -EditMode Emacs
@@ -11,6 +13,26 @@ Import-Module posh-git
 # Install-Module oh-my-posh -Scope CurrentUser
 Import-Module oh-my-posh
 Set-Theme Paradox
+
+# Load powerline-go prompt
+function global:prompt {
+    $pwd = $ExecutionContext.SessionState.Path.CurrentLocation
+    $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $startInfo.FileName = "powerline-go"
+    $startInfo.Arguments = "-shell bare -modules termtitle,exit,docker,venv,vgo,newline,host,perms,cwd,git,newline,jobs,time,root -cwd-max-depth 5 -max-width 100 -shorten-gke-names"
+    $startInfo.Environment["TERM"] = "xterm-256color"
+    $startInfo.CreateNoWindow = $true
+    $startInfo.StandardOutputEncoding = [System.Text.Encoding]::UTF8
+    $startInfo.RedirectStandardOutput = $true
+    $startInfo.UseShellExecute = $false
+    $startInfo.WorkingDirectory = $pwd
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo = $startInfo
+    $process.Start() | Out-Null
+    $standardOut = $process.StandardOutput.ReadToEnd()
+    $process.WaitForExit()
+    $standardOut
+}
 
 If (-Not (Test-Path Variable:PSise)) {  # Only run this in the console and not in the ISE
     Import-Module Get-ChildItemColor
