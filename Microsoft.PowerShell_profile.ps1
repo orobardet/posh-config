@@ -44,9 +44,17 @@ function global:prompt {
 If (-Not (Test-Path Variable:PSise)) {  # Only run this in the console and not in the ISE
 	# Import-Module -Name Terminal-Icons # disabled as it is slow 
     # Import-Module Get-ChildItemColor
-    Set-Alias l Get-ChildItem -option AllScope
-    Set-Alias ls Get-ChildItemColorFormatWide -option AllScope
-	Set-Alias ll l
+	# Function _ColorLS { Get-ChildItemColorFormatWide -HideHeader -TrailingSlashDirectory $args }
+    # Set-Alias l Get-ChildItemColor -option AllScope
+    # Set-Alias ls _ColorLS -option AllScope
+	Function _ColorLS { 
+		Get-ChildItem -Force @Args | Format-Table -AutoSize -HideTableHeaders 
+	}
+
+    $PSStyle.FileInfo.Directory="$([char]27)[34;1m"
+
+	Set-Alias ll _ColorLS
+	Set-Alias l ll
 	Set-Alias spp Split-Path
 } Else {
 	Set-Alias ll ls
